@@ -1,5 +1,4 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"
 " Sections:
 "   -> General
 "   -> VIM user interface
@@ -16,7 +15,6 @@
 "   -> Helper functions
 "   -> Plugins Manager Setup
 "   -> Installed Plugins
-"
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -132,7 +130,7 @@ if $COLORTERM == 'gnome-terminal'
 endif
 
 try
-    colorscheme desert
+    colorscheme base16-default-dark
 catch
 endtry
 
@@ -151,7 +149,6 @@ set encoding=utf8
 
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Files, backups and undo
@@ -416,6 +413,14 @@ Plug 'vim-airline/vim-airline-themes'
 " A Vim plugin which shows a git diff in the 'gutter' (sign column). It shows whether each line has been 
 " added, modified, and where lines have been removed. You can also stage and undo individual hunks.
 Plug 'airblade/vim-gitgutter'
+
+" Base16 provides carefully chosen syntax highlighting and a default set of sixteen colors suitable 
+" for a wide range of applications. Base16 is not a single theme but a set of guidelines with numerous 
+" implementations.
+Plug 'chriskempson/base16-vim'
+
+" Molokai is a Vim port of the monokai theme for TextMate originally created by Wimer Hazenberg.
+Plug 'tomasr/molokai'
 
 " Initialize plugin system
 call plug#end()
