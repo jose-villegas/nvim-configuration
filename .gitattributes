@@ -1,4 +1,0 @@
-* text=auto
-*.vim text eol=lf
-*.sh text eol=lf
-vimrc text eol=lf
