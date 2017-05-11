@@ -1,5 +1,9 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Sections:
+"   -> Plugins Manager Setup
+"   -> Installed Plugins
+"   -> Installed Themes
+"   -> Plugins Configuration
 "   -> General
 "   -> VIM user interface
 "   -> Colors and Fonts
@@ -13,9 +17,182 @@
 "   -> Spell checking
 "   -> Misc
 "   -> Helper functions
-"   -> Plugins Manager Setup
-"   -> Installed Plugins
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Plugins Manager Setup (Vim-Plug)
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+if has('vim_starting')
+  set nocompatible               " Be iMproved
+endif
+
+let vimplug_exists=expand('~/.vim/autoload/plug.vim')
+
+let g:vim_bootstrap_langs = "c,html,javascript,python,ruby"
+let g:vim_bootstrap_editor = "vim"				" nvim or vim
+
+if !filereadable(vimplug_exists)
+  echo "Installing Vim-Plug..."
+  echo ""
+  silent !\curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  let g:not_finish_vimplug = "yes"
+
+  autocmd VimEnter * PlugInstall
+endif
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Installed Plugins
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Required:
+call plug#begin(expand('~/.vim/plugged'))
+
+" The NERD tree allows you to explore your filesystem and to open files and directories. 
+" It presents the filesystem to you in the form of a tree which you manipulate with the 
+" keyboard and/or mouse. It also allows you to perform simple filesystem operations.
+Plug 'scrooloose/nerdtree'
+
+" This plugin aims at making NERDTree feel like a true panel, independent of tabs.
+Plug 'jistr/vim-nerdtree-tabs'
+
+" Comment stuff out. Use gcc to comment out a line (takes a count), gc to comment out the 
+" target of a motion (for example, gcap to comment out a paragraph), gc in visual mode to 
+" comment out the selection, and gc in operator pending mode to target a comment. You can 
+" also use it as a command, either with a range like :7,17Commentary, or as part of a :global 
+" invocation like with :g/TODO/Commentary. That's it.
+Plug 'tpope/vim-commentary'
+
+" View any blob, tree, commit, or tag in the repository with :Gedit (and :Gsplit, :Gvsplit, 
+" :Gtabedit, ...). Edit a file in the index and write to it to stage the changes. Use :Gdiff to 
+" bring up the staged version of the file side by side with the working tree version and use Vim's 
+"diff handling capabilities to stage a subset of the file's changes.
+Plug 'tpope/vim-fugitive'
+
+" Lean & mean status/tabline for vim that's light as air.
+Plug 'vim-airline/vim-airline'
+
+" This is the official theme repository for vim-airline.
+Plug 'vim-airline/vim-airline-themes'
+
+" A Vim plugin which shows a git diff in the 'gutter' (sign column). It shows whether each line has been 
+" added, modified, and where lines have been removed. You can also stage and undo individual hunks.
+Plug 'airblade/vim-gitgutter'
+
+" Run your favorite search tool from Vim, with an enhanced results list. This plugin was designed as a Vim 
+" frontend for the Perl module App::Ack. Ack can be used as a replacement for 99% of the uses of grep. The 
+" plugin allows you to run ack from Vim, and shows the results in a split window.
+Plug 'mileszs/ack.vim'
+
+" This plugin makes GVim-only colorschemes Just Work in terminal Vim, as long as the terminal supports 88 
+" or 256 colors - and most do these days.
+Plug 'godlygeek/csapprox'
+
+" This plugin causes all trailing whitespace to be highlighted in red.
+Plug 'bronson/vim-trailing-whitespace'
+
+" This plug-in provides automatic closing of quotes, parenthesis, brackets, etc.
+Plug 'raimondi/delimitmate'
+
+" Tagbar is a Vim plugin that provides an easy way to browse the tags of the current
+" file and get an overview of its structure.
+Plug 'majutsushi/tagbar'
+
+" Syntastic is a syntax checking plugin for Vim. It runs files through external syntax 
+" checkers and displays any resulting errors to the user.
+Plug 'scrooloose/syntastic'
+
+" This plugin is used for displaying thin vertical lines at each indentation level 
+" for code indented with spaces. 
+Plug 'yggdroot/indentline'
+
+" A collection of language packs for Vim.
+Plug 'sheerun/vim-polyglot'
+
+" fzf is a general-purpose command-line fuzzy finder.
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+
+" UltiSnips is the ultimate solution for snippets in Vim. It has tons of features and is very fast.
+Plug 'sirver/ultisnips'
+
+" This repository contains snippets files for various programming languages.
+Plug 'honza/vim-snippets'
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Installed Themes
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Base16 provides carefully chosen syntax highlighting and a default set of sixteen colors suitable 
+" for a wide range of applications. Base16 is not a single theme but a set of guidelines with numerous 
+" implementations.
+Plug 'chriskempson/base16-vim'
+
+" Molokai is a Vim port of the monokai theme for TextMate originally created by Wimer Hazenberg.
+Plug 'tomasr/molokai'
+
+" Initialize plugin system
+call plug#end()
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Plugins Configuration
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"""""""""""""""""""""""""
+" ==> Syntastic Plugin  
+"""""""""""""""""""""""""
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_aggregate_errors = 1
+
+let g:syntastic_error_symbol='✗'
+let g:syntastic_warning_symbol='⚠'
+let g:syntastic_style_error_symbol = '✗'
+let g:syntastic_style_warning_symbol = '⚠'
+
+"""""""""""""""""""""""""
+" ==> FZF Plugin  
+"""""""""""""""""""""""""
+
+let g:fzf_action = {
+      \ 'ctrl-s': 'split',
+      \ 'ctrl-v': 'vsplit'
+      \ }
+nnoremap <c-p> :FZF<cr>
+
+"""""""""""""""""""""""""
+" ==> Snippets Plugin  
+"""""""""""""""""""""""""
+
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<c-b>"
+let g:UltiSnipsEditSplit="vertical"
+
+"""""""""""""""""""""""""
+" ==> TagBar Plugin  
+"""""""""""""""""""""""""
+
+nmap <silent> <F4> :TagbarToggle<CR>
+let g:tagbar_autofocus = 1
+
+"""""""""""""""""""""""""
+" ==> Airline  
+"""""""""""""""""""""""""
+
+let g:airline_powerline_fonts = 1
+let g:airline_theme = 'base16'
+let g:airline#extensions#syntastic#enabled = 1
+let g:airline#extensions#branch#enabled = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tagbar#enabled = 1
+let g:airline_skip_empty_sections = 1
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
@@ -58,9 +235,10 @@ source $VIMRUNTIME/menu.vim
 
 " Turn on the WiLd menu
 set wildmenu
+set wildmode=list:longest,list:full
 
 " Ignore compiled files
-set wildignore=*.o,*~,*.pyc
+set wildignore=*.o,*.obj,*~,*.pyc,*.rbc,__pycache__
 if has("win16") || has("win32")
     set wildignore+=.git\*,.hg\*,.svn\*
 else
@@ -117,6 +295,20 @@ endif
 " Add a bit extra margin to the left
 set foldcolumn=1
 
+" Add line numbers
+set number
+
+" let mouse wheel scroll file contents
+if !has("gui_running")
+    set term=xterm
+    set mouse=a
+    set nocompatible
+    inoremap <Esc>[62~ <C-X><C-E>
+    inoremap <Esc>[63~ <C-X><C-Y>
+    nnoremap <Esc>[62~ <C-E>
+    nnoremap <Esc>[63~ <C-Y>
+endif
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -124,15 +316,14 @@ set foldcolumn=1
 " Enable syntax highlighting
 syntax enable 
 
-" Enable 256 colors palette in Gnome Terminal
-if $COLORTERM == 'gnome-terminal'
+" Set theme & enable 256 colors palette
+if !has("gui_running")
+    set term=xterm
     set t_Co=256
-endif
-
-try
+    let &t_AB="\e[48;5;%dm"
+    let &t_AF="\e[38;5;%dm"
     colorscheme base16-default-dark
-catch
-endtry
+endif
 
 set background=dark
 
@@ -147,8 +338,29 @@ endif
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf8
 
+" ConEmu setup
+if !empty($CONEMUBUILD)
+    set termencoding=utf8
+    " termcap codes for cursor shape changes on entry and exit to
+    " /from insert mode
+    " doesn't work
+    "let &t_ti="\e[1 q"
+    "let &t_SI="\e[5 q"
+    "let &t_EI="\e[1 q"
+    "let &t_te="\e[0 q"
+endif
+
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
+
+" Set GUI mode font
+if has('gui_running')
+  if has('gui_win32')
+    set guifont=Consolas_for_Powerline:h10:cANSI
+  else
+    set guifont=Consolas\ 10
+  endif
+endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Files, backups and undo
@@ -352,74 +564,3 @@ function! <SID>BufcloseCloseIt()
      execute("bdelete! ".l:currentBufNum)
    endif
 endfunction
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Plugins Manager Setup (Vim-Plug)
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-if has('vim_starting')
-  set nocompatible               " Be iMproved
-endif
-
-let vimplug_exists=expand('~/.vim/autoload/plug.vim')
-
-let g:vim_bootstrap_langs = "c,html,javascript,python,ruby"
-let g:vim_bootstrap_editor = "vim"				" nvim or vim
-
-if !filereadable(vimplug_exists)
-  echo "Installing Vim-Plug..."
-  echo ""
-  silent !\curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  let g:not_finish_vimplug = "yes"
-
-  autocmd VimEnter * PlugInstall
-endif
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Installed Plugins
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" Required:
-call plug#begin(expand('~/.vim/plugged'))
-
-" The NERD tree allows you to explore your filesystem and to open files and directories. 
-" It presents the filesystem to you in the form of a tree which you manipulate with the 
-" keyboard and/or mouse. It also allows you to perform simple filesystem operations.
-Plug 'scrooloose/nerdtree'
-
-" This plugin aims at making NERDTree feel like a true panel, independent of tabs.
-Plug 'jistr/vim-nerdtree-tabs'
-
-" Comment stuff out. Use gcc to comment out a line (takes a count), gc to comment out the 
-" target of a motion (for example, gcap to comment out a paragraph), gc in visual mode to 
-" comment out the selection, and gc in operator pending mode to target a comment. You can 
-" also use it as a command, either with a range like :7,17Commentary, or as part of a :global 
-" invocation like with :g/TODO/Commentary. That's it.
-Plug 'tpope/vim-commentary'
-
-" View any blob, tree, commit, or tag in the repository with :Gedit (and :Gsplit, :Gvsplit, 
-" :Gtabedit, ...). Edit a file in the index and write to it to stage the changes. Use :Gdiff to 
-" bring up the staged version of the file side by side with the working tree version and use Vim's 
-"diff handling capabilities to stage a subset of the file's changes.
-Plug 'tpope/vim-fugitive'
-
-" Lean & mean status/tabline for vim that's light as air.
-Plug 'vim-airline/vim-airline'
-
-" This is the official theme repository for vim-airline.
-Plug 'vim-airline/vim-airline-themes'
-
-" A Vim plugin which shows a git diff in the 'gutter' (sign column). It shows whether each line has been 
-" added, modified, and where lines have been removed. You can also stage and undo individual hunks.
-Plug 'airblade/vim-gitgutter'
-
-" Base16 provides carefully chosen syntax highlighting and a default set of sixteen colors suitable 
-" for a wide range of applications. Base16 is not a single theme but a set of guidelines with numerous 
-" implementations.
-Plug 'chriskempson/base16-vim'
-
-" Molokai is a Vim port of the monokai theme for TextMate originally created by Wimer Hazenberg.
-Plug 'tomasr/molokai'
-
-" Initialize plugin system
-call plug#end()
