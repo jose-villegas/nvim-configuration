@@ -1,5 +1,6 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Sections:
+"   -> Compatibility
 "   -> Plugins Manager Setup
 "   -> Installed Plugins
 "   -> Installed Themes
@@ -20,22 +21,35 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Plugins Manager Setup (Vim-Plug)
+" => Compatibility (Neovim & Vim)
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-if has('vim_starting')
-  set nocompatible               " Be iMproved
+if has('nvim')
+  let local_path='~/.nvim/'
+else
+  let local_path='~/.vim/'
 endif
 
-let vimplug_exists=expand('~/.vim/autoload/plug.vim')
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Plugins Manager Setup (Vim-Plug)
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if has('vim_starting')
+  set nocompatible                    " Be iMproved
+endif
 
-let g:vim_bootstrap_langs = "c,html,javascript,python,ruby"
-let g:vim_bootstrap_editor = "vim"				" nvim or vim
+let vimplug_exists=expand(local_path.'autoload/plug.vim')
+
+let g:vim_bootstrap_langs = 'c,html,javascript,python,ruby'
+
+if has('nvim') 				                " nvim or vim
+  let g:vim_bootstrap_editor = "nvim"
+else
+  let g:vim_bootstrap_editor = "vim"
+endif
 
 if !filereadable(vimplug_exists)
   echo "Installing Vim-Plug..."
   echo ""
-  silent !\curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  silent !\curl -fLo local_path.'autoload/plug.vim' --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   let g:not_finish_vimplug = "yes"
 
   autocmd VimEnter * PlugInstall
@@ -44,9 +58,8 @@ endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Installed Plugins
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " Required:
-call plug#begin(expand('~/.vim/plugged'))
+call plug#begin(expand(local_path.'plugged'))
 
 " The NERD tree allows you to explore your filesystem and to open files and directories. 
 " It presents the filesystem to you in the form of a tree which you manipulate with the 
@@ -110,7 +123,7 @@ Plug 'yggdroot/indentline'
 Plug 'sheerun/vim-polyglot'
 
 " fzf is a general-purpose command-line fuzzy finder.
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf', { 'do': './install --all' }
 
 " UltiSnips is the ultimate solution for snippets in Vim. It has tons of features and is very fast.
 Plug 'sirver/ultisnips'
@@ -121,7 +134,6 @@ Plug 'honza/vim-snippets'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Installed Themes
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " Base16 provides carefully chosen syntax highlighting and a default set of sixteen colors suitable 
 " for a wide range of applications. Base16 is not a single theme but a set of guidelines with numerous 
 " implementations.
@@ -136,7 +148,6 @@ call plug#end()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Plugins Configuration
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 """""""""""""""""""""""""
 " ==> Syntastic Plugin  
 """""""""""""""""""""""""
@@ -159,7 +170,6 @@ let g:syntastic_style_warning_symbol = '⚠'
 """""""""""""""""""""""""
 " ==> FZF Plugin  
 """""""""""""""""""""""""
-
 let g:fzf_action = {
       \ 'ctrl-s': 'split',
       \ 'ctrl-v': 'vsplit'
@@ -169,7 +179,6 @@ nnoremap <c-p> :FZF<cr>
 """""""""""""""""""""""""
 " ==> Snippets Plugin  
 """""""""""""""""""""""""
-
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<c-b>"
@@ -178,14 +187,12 @@ let g:UltiSnipsEditSplit="vertical"
 """""""""""""""""""""""""
 " ==> TagBar Plugin  
 """""""""""""""""""""""""
-
 nmap <silent> <F4> :TagbarToggle<CR>
 let g:tagbar_autofocus = 1
 
 """""""""""""""""""""""""
 " ==> Airline  
 """""""""""""""""""""""""
-
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'base16'
 let g:airline#extensions#syntastic#enabled = 1
@@ -194,10 +201,15 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tagbar#enabled = 1
 let g:airline_skip_empty_sections = 1
 
+"""""""""""""""""""""""""
+" ==> NERDTree  
+"""""""""""""""""""""""""
+autocmd VimEnter * NERDTree " Start vim with NERDTree
+autocmd VimEnter * wincmd p " Move cursor to main
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " Sets how many lines of history VIM has to remember
 set history=500
 
@@ -223,7 +235,6 @@ command W w !sudo tee % > /dev/null
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " Set 7 lines to the cursor - when moving vertically using j/k
 set so=7
 
@@ -300,7 +311,9 @@ set number
 
 " let mouse wheel scroll file contents
 if !has("gui_running")
-    set term=xterm
+    if &term=~'screen' || &term=~'tmux'
+      set term=screen-256color
+    endif
     set mouse=a
     set nocompatible
     inoremap <Esc>[62~ <C-X><C-E>
@@ -312,13 +325,14 @@ endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " Enable syntax highlighting
 syntax enable 
 
 " Set theme & enable 256 colors palette
 if !has("gui_running")
-    set term=xterm
+    if &term=~'screen' || &term=~'tmux'
+      set term=screen-256color
+    endif
     set t_Co=256
     let &t_AB="\e[48;5;%dm"
     let &t_AF="\e[38;5;%dm"
@@ -365,7 +379,6 @@ endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Files, backups and undo
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " Turn backup off, since most stuff is in SVN, git et.c anyway...
 set nobackup
 set nowb
@@ -374,7 +387,6 @@ set noswapfile
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Text, tab and indent related
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " Use spaces instead of tabs
 set expandtab
 
@@ -397,7 +409,6 @@ set wrap "Wrap lines
 """"""""""""""""""""""""""""""
 " => Visual mode related
 """"""""""""""""""""""""""""""
-
 " Visual mode pressing * or # searches for the current selection
 " Super useful! From an idea by Michael Naumann
 vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
@@ -407,7 +418,6 @@ vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Moving around, tabs, windows and buffers
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " Map <Space> to / (search) and Ctrl-<Space> to ? (backwards search)
 map <space> /
 map <c-space> ?
@@ -463,7 +473,6 @@ au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g
 """"""""""""""""""""""""""""""
 " => Status line
 """"""""""""""""""""""""""""""
-
 " Always show the status line
 set laststatus=2
 
@@ -473,7 +482,6 @@ set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Editing mappings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " Remap VIM 0 to first non-blank character
 map 0 ^
 
@@ -506,7 +514,6 @@ endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Spell checking
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " Pressing ,ss will toggle and untoggle spell checking
 map <leader>ss :setlocal spell!<cr>
 
@@ -519,7 +526,6 @@ map <leader>s? z=
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Misc
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " Remove the Windows ^M - when the encodings gets messed up
 noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
 
@@ -535,7 +541,6 @@ map <leader>pp :setlocal paste!<cr>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Helper functions
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " Returns true if paste mode is enabled
 function! HasPaste()
     if &paste
