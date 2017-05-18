@@ -38,14 +38,6 @@ endif
 
 let vimplug_exists=expand(local_path.'autoload/plug.vim')
 
-let g:vim_bootstrap_langs = 'c,html,javascript,python,ruby'
-
-if has('nvim') 				                " nvim or vim
-  let g:vim_bootstrap_editor = "nvim"
-else
-  let g:vim_bootstrap_editor = "vim"
-endif
-
 if !filereadable(vimplug_exists)
   echo "Installing Vim-Plug..."
   echo ""
@@ -92,11 +84,6 @@ Plug 'vim-airline/vim-airline-themes'
 " added, modified, and where lines have been removed. You can also stage and undo individual hunks.
 Plug 'airblade/vim-gitgutter'
 
-" Run your favorite search tool from Vim, with an enhanced results list. This plugin was designed as a Vim 
-" frontend for the Perl module App::Ack. Ack can be used as a replacement for 99% of the uses of grep. The 
-" plugin allows you to run ack from Vim, and shows the results in a split window.
-Plug 'mileszs/ack.vim'
-
 " This plugin makes GVim-only colorschemes Just Work in terminal Vim, as long as the terminal supports 88 
 " or 256 colors - and most do these days.
 Plug 'godlygeek/csapprox'
@@ -131,6 +118,11 @@ Plug 'sirver/ultisnips'
 " This repository contains snippets files for various programming languages.
 Plug 'honza/vim-snippets'
 
+" C & C++
+Plug 'vim-scripts/c.vim', {'for': ['c', 'cpp']}
+" C#
+Plug 'vim-scripts/csharp.vim', {'for': ['cs']}
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Installed Themes
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -139,8 +131,9 @@ Plug 'honza/vim-snippets'
 " implementations.
 Plug 'chriskempson/base16-vim'
 
-" Molokai is a Vim port of the monokai theme for TextMate originally created by Wimer Hazenberg.
-Plug 'tomasr/molokai'
+" Zenburn is a low-contrast color scheme for Vim. It’s easy for your eyes and
+" designed to keep you in the zone for long programming sessions.
+Plug 'jnurmine/zenburn'
 
 " Initialize plugin system
 call plug#end()
@@ -194,7 +187,7 @@ let g:tagbar_autofocus = 1
 " ==> Airline  
 """""""""""""""""""""""""
 let g:airline_powerline_fonts = 1
-let g:airline_theme = 'base16'
+let g:airline_theme = 'zenburn'
 let g:airline#extensions#syntastic#enabled = 1
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
@@ -206,6 +199,16 @@ let g:airline_skip_empty_sections = 1
 """""""""""""""""""""""""
 autocmd VimEnter * NERDTree " Start vim with NERDTree
 autocmd VimEnter * wincmd p " Move cursor to main
+let g:NERDTreeChDirMode=2
+let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__']
+let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
+let g:NERDTreeShowBookmarks=1
+let g:nerdtree_tabs_focus_on_files=1
+let g:NERDTreeMapOpenInTabSilent = '<RightMouse>'
+let g:NERDTreeWinSize = 50
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
+nnoremap <silent> <F2> :NERDTreeFind<CR>
+noremap <F3> :NERDTreeToggle<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
@@ -214,8 +217,7 @@ autocmd VimEnter * wincmd p " Move cursor to main
 set history=500
 
 " Enable filetype plugins
-filetype plugin on
-filetype indent on
+filetype plugin indent on
 
 " Set to auto read when a file is changed from the outside
 set autoread
@@ -263,7 +265,7 @@ set ruler
 set cmdheight=2
 
 " A buffer becomes hidden when it is abandoned
-set hid
+set hidden
 
 " Configure backspace so it acts as it should act
 set backspace=eol,start,indent
@@ -336,7 +338,6 @@ if !has("gui_running")
     set t_Co=256
     let &t_AB="\e[48;5;%dm"
     let &t_AF="\e[38;5;%dm"
-    colorscheme base16-default-dark
 endif
 
 set background=dark
@@ -351,6 +352,10 @@ endif
 
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf8
+set fileencoding=utf-8
+set fileencodings=utf-8
+set bomb
+set binary
 
 " ConEmu setup
 if !empty($CONEMUBUILD)
@@ -374,6 +379,10 @@ if has('gui_running')
   else
     set guifont=Consolas\ 10
   endif
+endif
+
+if !exists('g:not_finish_vimplug')
+  colorscheme zenburn
 endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
