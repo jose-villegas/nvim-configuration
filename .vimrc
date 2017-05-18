@@ -29,6 +29,11 @@ else
   let local_path='~/.vim/'
 endif
 
+if has('nvim')
+  let g:python3_host_prog='~/Envs/Python36/Scripts/python.exe'
+  let g:python_host_prog='~/Envs/Python27/Scripts/python.exe'
+endif
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Plugins Manager Setup (Vim-Plug)
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -111,12 +116,16 @@ Plug 'sheerun/vim-polyglot'
 
 " fzf is a general-purpose command-line fuzzy finder.
 Plug 'junegunn/fzf', { 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 
 " UltiSnips is the ultimate solution for snippets in Vim. It has tons of features and is very fast.
 Plug 'sirver/ultisnips'
 
 " This repository contains snippets files for various programming languages.
 Plug 'honza/vim-snippets'
+
+" YouCompleteMe is a fast, as-you-type, fuzzy-search code completion engine for Vim.
+Plug 'valloric/youcompleteme'
 
 " C & C++
 Plug 'vim-scripts/c.vim', {'for': ['c', 'cpp']}
@@ -133,7 +142,7 @@ Plug 'chriskempson/base16-vim'
 
 " Zenburn is a low-contrast color scheme for Vim. It’s easy for your eyes and
 " designed to keep you in the zone for long programming sessions.
-Plug 'jnurmine/zenburn'
+Plug 'vim-scripts/Zenburn'
 
 " Initialize plugin system
 call plug#end()
@@ -141,10 +150,10 @@ call plug#end()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Plugins Configuration
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 """""""""""""""""""""""""
 " ==> Syntastic Plugin  
 """""""""""""""""""""""""
-
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -163,11 +172,12 @@ let g:syntastic_style_warning_symbol = '⚠'
 """""""""""""""""""""""""
 " ==> FZF Plugin  
 """""""""""""""""""""""""
-let g:fzf_action = {
-      \ 'ctrl-s': 'split',
-      \ 'ctrl-v': 'vsplit'
-      \ }
 nnoremap <c-p> :FZF<cr>
+
+if has('nvim')
+  " In Neovim, you can set up fzf window using a Vim command
+  let g:fzf_layout = { 'window': '-tabnew' }
+endif
 
 """""""""""""""""""""""""
 " ==> Snippets Plugin  
@@ -200,13 +210,12 @@ let g:airline_skip_empty_sections = 1
 autocmd VimEnter * NERDTree " Start vim with NERDTree
 autocmd VimEnter * wincmd p " Move cursor to main
 let g:NERDTreeChDirMode=2
-let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__']
+let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__', '\.meta$']
 let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
 let g:NERDTreeShowBookmarks=1
 let g:nerdtree_tabs_focus_on_files=1
 let g:NERDTreeMapOpenInTabSilent = '<RightMouse>'
 let g:NERDTreeWinSize = 50
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
 nnoremap <silent> <F2> :NERDTreeFind<CR>
 noremap <F3> :NERDTreeToggle<CR>
 
@@ -227,6 +236,12 @@ set autoread
 let mapleader = ","
 let g:mapleader = ","
 
+" Faster for : commands
+nnoremap ; :
+
+" Clear search highlight
+nmap <silent> <leader>/ :nohlsearch<CR>
+
 " Fast saving
 nmap <leader>w :w!<cr>
 
@@ -243,15 +258,17 @@ set so=7
 " Avoid garbled characters in Chinese language windows OS
 let $LANG='en' 
 set langmenu=en
-source $VIMRUNTIME/delmenu.vim
-source $VIMRUNTIME/menu.vim
+if !has('nvim")
+  source $VIMRUNTIME/delmenu.vim
+  source $VIMRUNTIME/menu.vim
+endif
 
 " Turn on the WiLd menu
 set wildmenu
 set wildmode=list:longest,list:full
 
-" Ignore compiled files
-set wildignore=*.o,*.obj,*~,*.pyc,*.rbc,__pycache__
+" Ignore following files
+set wildignore=*.o,*.obj,*~,*.pyc,*.rbc,__pycache__,*.meta
 if has("win16") || has("win32")
     set wildignore+=.git\*,.hg\*,.svn\*
 else
@@ -435,10 +452,10 @@ map <c-space> ?
 map <silent> <leader><cr> :noh<cr>
 
 " Smart way to move between windows
-map <C-j> <C-W>j
-map <C-k> <C-W>k
-map <C-h> <C-W>h
-map <C-l> <C-W>l
+map <C-h> <C-w>h
+map <C-j> <C-w>j
+map <C-k> <C-w>k
+map <C-l> <C-w>l
 
 " Close the current buffer
 map <leader>bd :Bclose<cr>:tabclose<cr>gT
