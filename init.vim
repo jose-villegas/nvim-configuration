@@ -24,7 +24,7 @@
 " => Compatibility (Neovim & Vim)
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if has('nvim')
-  let local_path='~/.nvim/'
+  let local_path='C:/Users/Jose/AppData/Local/nvim/'
 else
   let local_path='~/.vim/'
 endif
@@ -41,12 +41,18 @@ if has('vim_starting')
   set nocompatible                    " Be iMproved
 endif
 
-let vimplug_exists=expand(local_path.'autoload/plug.vim')
+if has('nvim')
+  let site_path='site/'
+else
+  let site_path=''
+endif
+
+let vimplug_exists=expand(local_path.site_path.'autoload/plug.vim')
 
 if !filereadable(vimplug_exists)
   echo "Installing Vim-Plug..."
   echo ""
-  silent !\curl -fLo local_path.'autoload/plug.vim' --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  silent !\curl -fLo local_path.site_path.'autoload/plug.vim' --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   let g:not_finish_vimplug = "yes"
 
   autocmd VimEnter * PlugInstall
