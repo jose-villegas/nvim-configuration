@@ -23,6 +23,11 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Plugins Manager Setup (Vim-Plug)
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+// Python paths
+let g:python3_host_prog='~/Envs/Python36/Scripts/python.exe'
+let g:python_host_prog='~/Envs/Python27/Scripts/python.exe'
+
 if has("win16") || has("win32")
   let local_path='C:/Users/Jose/AppData/Local/nvim/'
 else
@@ -211,9 +216,6 @@ noremap <F3> :NERDTreeToggle<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-// Python paths
-let g:python3_host_prog='~/Envs/Python36/Scripts/python.exe'
-let g:python_host_prog='~/Envs/Python27/Scripts/python.exe'
 
 " Sets how many lines of history VIM has to remember
 set history=500
