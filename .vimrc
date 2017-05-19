@@ -23,22 +23,16 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Plugins Manager Setup (Vim-Plug)
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-if has("win16") || has("win32")
-  let local_path='C:/Users/Jose/AppData/Local/nvim/'
-else
-  let local_path='~/.local/share/nvim'
-endif
-
 if has('vim_starting')
   set nocompatible                    " Be iMproved
 endif
 
-let vimplug_exists=expand(local_path.'site/autoload/plug.vim')
+let vimplug_exists=expand('~/.vim/autoload/plug.vim')
 
 if !filereadable(vimplug_exists)
   echo "Installing Vim-Plug..."
   echo ""
-  silent !\curl -fLo local_path.'site/autoload/plug.vim' --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  silent !\curl -fLo '~/.vim/autoload/plug.vim' --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   let g:not_finish_vimplug = "yes"
 
   autocmd VimEnter * PlugInstall
@@ -48,7 +42,7 @@ endif
 " => Installed Plugins
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Required:
-call plug#begin(expand(local_path.'plugged'))
+call plug#begin(expand('~/.vim/plugged'))
 
 " The NERD tree allows you to explore your filesystem and to open files and directories. 
 " It presents the filesystem to you in the form of a tree which you manipulate with the 
@@ -165,8 +159,6 @@ let g:syntastic_style_warning_symbol = '⚠'
 " ==> FZF Plugin  
 """""""""""""""""""""""""
 nnoremap <c-p> :FZF<cr>
-" In Neovim, you can set up fzf window using a Vim command
-let g:fzf_layout = { 'window': '-tabnew' }
 
 """""""""""""""""""""""""
 " ==> Snippets Plugin  
@@ -211,10 +203,6 @@ noremap <F3> :NERDTreeToggle<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-// Python paths
-let g:python3_host_prog='~/Envs/Python36/Scripts/python.exe'
-let g:python_host_prog='~/Envs/Python27/Scripts/python.exe'
-
 " Sets how many lines of history VIM has to remember
 set history=500
 
@@ -251,6 +239,8 @@ set so=7
 " Avoid garbled characters in Chinese language windows OS
 let $LANG='en' 
 set langmenu=en
+source $VIMRUNTIME/delmenu.vim
+source $VIMRUNTIME/menu.vim
 
 " Turn on the WiLd menu
 set wildmenu
@@ -317,13 +307,44 @@ set foldcolumn=1
 " Add line numbers
 set number
 
+" let mouse wheel scroll file contents
+if !has("gui_running")
+    if &term=~'screen' || &term=~'tmux'
+      set term=screen-256color
+    endif
+    set mouse=a
+    set nocompatible
+    inoremap <Esc>[62~ <C-X><C-E>
+    inoremap <Esc>[63~ <C-X><C-Y>
+    nnoremap <Esc>[62~ <C-E>
+    nnoremap <Esc>[63~ <C-Y>
+endif
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Enable syntax highlighting
 syntax enable 
 
+" Set theme & enable 256 colors palette
+if !has("gui_running")
+    if &term=~'screen' || &term=~'tmux'
+      set term=screen-256color
+    endif
+    set t_Co=256
+    let &t_AB="\e[48;5;%dm"
+    let &t_AF="\e[38;5;%dm"
+endif
+
 set background=dark
+
+" Set extra options when running in GUI mode
+if has("gui_running")
+    set guioptions-=T
+    set guioptions-=e
+    set t_Co=256
+    set guitablabel=%M\ %t
+endif
 
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf8
@@ -332,8 +353,29 @@ set fileencodings=utf-8
 set bomb
 set binary
 
+" ConEmu setup
+if !empty($CONEMUBUILD)
+    set termencoding=utf8
+    " termcap codes for cursor shape changes on entry and exit to
+    " /from insert mode
+    " doesn't work
+    "let &t_ti="\e[1 q"
+    "let &t_SI="\e[5 q"
+    "let &t_EI="\e[1 q"
+    "let &t_te="\e[0 q"
+endif
+
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
+
+" Set GUI mode font
+if has('gui_running')
+  if has('gui_win32')
+    set guifont=Consolas_for_Powerline:h10:cANSI
+  else
+    set guifont=Consolas\ 10
+  endif
+endif
 
 if !exists('g:not_finish_vimplug')
   colorscheme zenburn
