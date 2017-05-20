@@ -24,12 +24,14 @@
 " => Plugins Manager Setup (Vim-Plug)
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-// Python paths
-let g:python3_host_prog='~/Envs/Python36/Scripts/python.exe'
-let g:python_host_prog='~/Envs/Python27/Scripts/python.exe'
+" Python paths
+if has("win16") || has("win32")
+  let g:python3_host_prog='C:/Users/Jose/Envs/Python36/Scripts/python.exe'
+  let g:python_host_prog='C:/Users/Jose/Envs/Python27/Scripts/python.exe'
+endif
 
 if has("win16") || has("win32")
-  let local_path='C:/Users/Jose/AppData/Local/nvim/'
+  let local_path='~/AppData/Local/nvim/'
 else
   let local_path='~/.local/share/nvim'
 endif
@@ -111,9 +113,8 @@ Plug 'yggdroot/indentline'
 " A collection of language packs for Vim.
 Plug 'sheerun/vim-polyglot'
 
-" fzf is a general-purpose command-line fuzzy finder.
-Plug 'junegunn/fzf', { 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
+" Full path fuzzy file, buffer, mru, tag, ... finder for Vim.
+Plug 'ctrlpvim/ctrlp.vim'
 
 " UltiSnips is the ultimate solution for snippets in Vim. It has tons of features and is very fast.
 Plug 'sirver/ultisnips'
@@ -123,6 +124,9 @@ Plug 'honza/vim-snippets'
 
 " YouCompleteMe is a fast, as-you-type, fuzzy-search code completion engine for Vim.
 Plug 'valloric/youcompleteme'
+
+" Supertab is a vim plugin which allows you to use <Tab> for all your insert completion needs
+Plug 'ervandew/supertab'
 
 " C & C++
 Plug 'vim-scripts/c.vim', {'for': ['c', 'cpp']}
@@ -167,11 +171,10 @@ let g:syntastic_style_error_symbol = '✗'
 let g:syntastic_style_warning_symbol = '⚠'
 
 """""""""""""""""""""""""
-" ==> FZF Plugin  
+" ==> CtrlP Plugin  
 """""""""""""""""""""""""
-nnoremap <c-p> :FZF<cr>
-" In Neovim, you can set up fzf window using a Vim command
-let g:fzf_layout = { 'window': '-tabnew' }
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
 
 """""""""""""""""""""""""
 " ==> Snippets Plugin  
@@ -191,7 +194,7 @@ let g:tagbar_autofocus = 1
 " ==> Airline  
 """""""""""""""""""""""""
 let g:airline_powerline_fonts = 1
-let g:airline_theme = 'zenburn'
+let g:airline_theme = 'base16-monokai'
 let g:airline#extensions#syntastic#enabled = 1
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
@@ -338,7 +341,7 @@ set binary
 set ffs=unix,dos,mac
 
 if !exists('g:not_finish_vimplug')
-  colorscheme zenburn
+  colorscheme base16-monokai
 endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
