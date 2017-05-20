@@ -64,24 +64,24 @@ endif
 " Required:
 call plug#begin(expand(local_path.'plugged'))
 
-" The NERD tree allows you to explore your filesystem and to open files and directories. 
-" It presents the filesystem to you in the form of a tree which you manipulate with the 
+" The NERD tree allows you to explore your filesystem and to open files and directories.
+" It presents the filesystem to you in the form of a tree which you manipulate with the
 " keyboard and/or mouse. It also allows you to perform simple filesystem operations.
 Plug 'scrooloose/nerdtree'
 
 " This plugin aims at making NERDTree feel like a true panel, independent of tabs.
 Plug 'jistr/vim-nerdtree-tabs'
 
-" Comment stuff out. Use gcc to comment out a line (takes a count), gc to comment out the 
-" target of a motion (for example, gcap to comment out a paragraph), gc in visual mode to 
-" comment out the selection, and gc in operator pending mode to target a comment. You can 
-" also use it as a command, either with a range like :7,17Commentary, or as part of a :global 
+" Comment stuff out. Use gcc to comment out a line (takes a count), gc to comment out the
+" target of a motion (for example, gcap to comment out a paragraph), gc in visual mode to
+" comment out the selection, and gc in operator pending mode to target a comment. You can
+" also use it as a command, either with a range like :7,17Commentary, or as part of a :global
 " invocation like with :g/TODO/Commentary. That's it.
 Plug 'tpope/vim-commentary'
 
-" View any blob, tree, commit, or tag in the repository with :Gedit (and :Gsplit, :Gvsplit, 
-" :Gtabedit, ...). Edit a file in the index and write to it to stage the changes. Use :Gdiff to 
-" bring up the staged version of the file side by side with the working tree version and use Vim's 
+" View any blob, tree, commit, or tag in the repository with :Gedit (and :Gsplit, :Gvsplit,
+" :Gtabedit, ...). Edit a file in the index and write to it to stage the changes. Use :Gdiff to
+" bring up the staged version of the file side by side with the working tree version and use Vim's
 "diff handling capabilities to stage a subset of the file's changes.
 Plug 'tpope/vim-fugitive'
 
@@ -91,11 +91,11 @@ Plug 'vim-airline/vim-airline'
 " This is the official theme repository for vim-airline.
 Plug 'vim-airline/vim-airline-themes'
 
-" A Vim plugin which shows a git diff in the 'gutter' (sign column). It shows whether each line has been 
+" A Vim plugin which shows a git diff in the 'gutter' (sign column). It shows whether each line has been
 " added, modified, and where lines have been removed. You can also stage and undo individual hunks.
 Plug 'airblade/vim-gitgutter'
 
-" This plugin makes GVim-only colorschemes Just Work in terminal Vim, as long as the terminal supports 88 
+" This plugin makes GVim-only colorschemes Just Work in terminal Vim, as long as the terminal supports 88
 " or 256 colors - and most do these days.
 Plug 'godlygeek/csapprox'
 
@@ -109,12 +109,12 @@ Plug 'raimondi/delimitmate'
 " file and get an overview of its structure.
 Plug 'majutsushi/tagbar'
 
-" Syntastic is a syntax checking plugin for Vim. It runs files through external syntax 
+" Syntastic is a syntax checking plugin for Vim. It runs files through external syntax
 " checkers and displays any resulting errors to the user.
 Plug 'scrooloose/syntastic'
 
-" This plugin is used for displaying thin vertical lines at each indentation level 
-" for code indented with spaces. 
+" This plugin is used for displaying thin vertical lines at each indentation level
+" for code indented with spaces.
 Plug 'yggdroot/indentline'
 
 " A collection of language packs for Vim.
@@ -143,8 +143,8 @@ Plug 'vim-scripts/csharp.vim', {'for': ['cs']}
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Installed Themes
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Base16 provides carefully chosen syntax highlighting and a default set of sixteen colors suitable 
-" for a wide range of applications. Base16 is not a single theme but a set of guidelines with numerous 
+" Base16 provides carefully chosen syntax highlighting and a default set of sixteen colors suitable
+" for a wide range of applications. Base16 is not a single theme but a set of guidelines with numerous
 " implementations.
 Plug 'chriskempson/base16-vim'
 
@@ -160,7 +160,7 @@ call plug#end()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 """""""""""""""""""""""""
-" ==> Syntastic Plugin  
+" ==> Syntastic Plugin
 """""""""""""""""""""""""
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
@@ -178,13 +178,13 @@ let g:syntastic_style_error_symbol = '✗'
 let g:syntastic_style_warning_symbol = '⚠'
 
 """""""""""""""""""""""""
-" ==> CtrlP Plugin  
+" ==> CtrlP Plugin
 """""""""""""""""""""""""
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 
 """""""""""""""""""""""""
-" ==> Snippets Plugin  
+" ==> Snippets Plugin
 """""""""""""""""""""""""
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
@@ -192,13 +192,13 @@ let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 let g:UltiSnipsEditSplit="vertical"
 
 """""""""""""""""""""""""
-" ==> TagBar Plugin  
+" ==> TagBar Plugin
 """""""""""""""""""""""""
 nmap <silent> <F4> :TagbarToggle<CR>
 let g:tagbar_autofocus = 1
 
 """""""""""""""""""""""""
-" ==> Airline  
+" ==> Airline
 """""""""""""""""""""""""
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'base16_monokai'
@@ -209,7 +209,7 @@ let g:airline#extensions#tagbar#enabled = 1
 let g:airline_skip_empty_sections = 1
 
 """""""""""""""""""""""""
-" ==> NERDTree  
+" ==> NERDTree
 """""""""""""""""""""""""
 autocmd VimEnter * NERDTree " Start vim with NERDTree
 autocmd VimEnter * wincmd p " Move cursor to main
@@ -251,7 +251,7 @@ nmap <silent> <leader>/ :nohlsearch<CR>
 " Fast saving
 nmap <leader>w :w!<cr>
 
-" :W sudo saves the file 
+" :W sudo saves the file
 " (useful for handling the permission-denied error)
 command W w !sudo tee % > /dev/null
 
@@ -289,23 +289,23 @@ set whichwrap+=<,>,h,l
 " Ignore case when searching
 set ignorecase
 
-" When searching try to be smart about cases 
+" When searching try to be smart about cases
 set smartcase
 
 " Highlight search results
 set hlsearch
 
 " Makes search act like search in modern browsers
-set incsearch 
+set incsearch
 
 " Don't redraw while executing macros (good performance config)
-set lazyredraw 
+set lazyredraw
 
 " For regular expressions turn magic on
 set magic
 
 " Show matching brackets when text indicator is over them
-set showmatch 
+set showmatch
 " How many tenths of a second to blink when matching brackets
 set mat=2
 
@@ -391,7 +391,7 @@ vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 " => Moving around, tabs, windows and buffers
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Map <Esc> to exit terminal mode
-tnoremap <Esc> <C-\><C-n> 
+tnoremap <Esc> <C-\><C-n>
 
 " Map <Space> to / (search) and Ctrl-<Space> to ? (backwards search)
 map <space> /
@@ -419,8 +419,8 @@ map <leader>h :bprevious<cr>
 map <leader>tn :tabnew<cr>
 map <leader>to :tabonly<cr>
 map <leader>tc :tabclose<cr>
-map <leader>tm :tabmove 
-map <leader>t<leader> :tabnext 
+map <leader>tm :tabmove
+map <leader>t<leader> :tabnext
 
 " Let 'tl' toggle between this and the last accessed tab
 let g:lasttab = 1
@@ -434,7 +434,7 @@ map <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
 " Switch CWD to the directory of the open buffer
 map <leader>cd :cd %:p:h<cr>:pwd<cr>
 
-" Specify the behavior when switching between buffers 
+" Specify the behavior when switching between buffers
 try
   set switchbuf=useopen,usetab,newtab
   set stal=2
