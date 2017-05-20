@@ -343,7 +343,8 @@ set binary
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
 
-colorscheme zenburn
+silent! colorscheme default
+silent! colorscheme zenburn
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Files, backups and undo
