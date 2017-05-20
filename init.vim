@@ -33,7 +33,7 @@ endif
 if has("win16") || has("win32")
   let local_path='~/AppData/Local/nvim/'
 else
-  let local_path='~/.local/share/nvim'
+  let local_path='~/.local/share/nvim/'
 endif
 
 if has('vim_starting')
@@ -43,11 +43,18 @@ endif
 let vimplug_exists=expand(local_path.'site/autoload/plug.vim')
 
 if !filereadable(vimplug_exists)
-  echo "Installing Vim-Plug..."
-  echo ""
-  silent !\curl -fLo local_path.'site/autoload/plug.vim' --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  let vimplug_url='https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  echom "Installing Vim-Plug..."
+  if executable('curl')
+    exec '!curl -fLo '.local_path.'site/autoload/plug.vim'.' --create-dirs '.vimplug_url
+  elseif executable('wget')
+    call mkdir(fnamemodify(local_path.'site/autoload/plug.vim', ':h'), 'p')
+    exec '!wget --force-directories --no-check-certificate -O '.local_path.'site/autoload/plug.vim'.' '.vimplug_url
+  else
+    echom 'Could not download plugin manager. No plugins were installed'
+    finish
+  endif
   let g:not_finish_vimplug = "yes"
-
   autocmd VimEnter * PlugInstall
 endif
 
@@ -194,7 +201,7 @@ let g:tagbar_autofocus = 1
 " ==> Airline  
 """""""""""""""""""""""""
 let g:airline_powerline_fonts = 1
-let g:airline_theme = 'base16-monokai'
+let g:airline_theme = 'base16_monokai'
 let g:airline#extensions#syntastic#enabled = 1
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
@@ -219,6 +226,7 @@ noremap <F3> :NERDTreeToggle<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set termguicolors
 
 " Sets how many lines of history VIM has to remember
 set history=500
