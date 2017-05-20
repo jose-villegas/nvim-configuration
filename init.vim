@@ -54,7 +54,6 @@ if !filereadable(vimplug_exists)
     echom 'Could not download plugin manager. No plugins were installed'
     finish
   endif
-  let g:not_finish_vimplug = "yes"
   autocmd VimEnter * PlugInstall
 endif
 
@@ -201,7 +200,7 @@ let g:tagbar_autofocus = 1
 " ==> Airline
 """""""""""""""""""""""""
 let g:airline_powerline_fonts = 1
-let g:airline_theme = 'base16_monokai'
+let g:airline_theme = 'zenburn'
 let g:airline#extensions#syntastic#enabled = 1
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
@@ -344,9 +343,7 @@ set binary
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
 
-if !exists('g:not_finish_vimplug')
-  colorscheme base16-monokai
-endif
+colorscheme zenburn
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Files, backups and undo
