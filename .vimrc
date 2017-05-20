@@ -33,10 +33,10 @@ if !filereadable(vimplug_exists)
   let vimplug_url='https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
   echom "Installing Vim-Plug..."
   if executable('curl')
-    exec '!curl -fLo '.local_path.'site/autoload/plug.vim'.' --create-dirs '.vimplug_url
+    exec '!curl -fLo '.'~/.vim/site/autoload/plug.vim'.' --create-dirs '.vimplug_url
   elseif executable('wget')
-    call mkdir(fnamemodify(local_path.'site/autoload/plug.vim', ':h'), 'p')
-    exec '!wget --force-directories --no-check-certificate -O '.local_path.'site/autoload/plug.vim'.' '.vimplug_url
+    call mkdir(fnamemodify('~/.vim/site/autoload/plug.vim', ':h'), 'p')
+    exec '!wget --force-directories --no-check-certificate -O '.'~/.vim/site/autoload/plug.vim'.' '.vimplug_url
   else
     echom 'Could not download plugin manager. No plugins were installed'
     finish
