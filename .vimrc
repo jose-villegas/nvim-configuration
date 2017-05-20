@@ -41,7 +41,6 @@ if !filereadable(vimplug_exists)
     echom 'Could not download plugin manager. No plugins were installed'
     finish
   endif
-  let g:not_finish_vimplug = "yes"
   autocmd VimEnter * PlugInstall
 endif
 
@@ -387,7 +386,8 @@ if has('gui_running')
   endif
 endif
 
-colorscheme zenburn
+silent! colorscheme default
+silent! colorscheme zenburn
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Files, backups and undo
