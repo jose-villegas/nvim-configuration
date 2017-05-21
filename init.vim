@@ -26,12 +26,12 @@
 
 " Python paths
 if has("win16") || has("win32")
-  let g:python3_host_prog='C:/Users/Jose/Envs/Python36/Scripts/python.exe'
-  let g:python_host_prog='C:/Users/Jose/Envs/Python27/Scripts/python.exe'
+  let g:python3_host_prog=$HOME.'/Envs/Python36/Scripts/python.exe'
+  let g:python_host_prog=$HOME.'/Envs/Python27/Scripts/python.exe'
 endif
 
 if has("win16") || has("win32")
-  let local_path='~/AppData/Local/nvim/'
+  let local_path=$LOCALAPPDATA.'/nvim/'
 else
   let local_path='~/.local/share/nvim/'
 endif
