@@ -418,6 +418,9 @@ set ai "Auto indent
 set si "Smart indent
 set wrap "Wrap lines
 
+" Tab indents and shift tab unindents
+noremap <Tab> >>
+noremap <S-Tab> <<
 
 """"""""""""""""""""""""""""""
 " => Visual mode related
